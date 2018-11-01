@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  tasks:
+    - name: New user for AUR management
+      become: yes
+      become_method: sudo
+      user:
+        name: aurman
+        comment: "AUR manager"
+        shell: /bin/nologin
+        home: /var/lib/aurman
+        system: yes
+        state: present
+    - name: install i3 gaps git
+      become: yes
+      become_user: aurman
+      aur:
+        name: 
+          - i3-gaps-git
+        state: latest

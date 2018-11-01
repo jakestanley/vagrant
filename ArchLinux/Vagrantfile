@@ -1,0 +1,71 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrant V2
+Vagrant.configure("2") do |config|
+  # https://docs.vagrantup.com.
+
+  config.vm.box = "archlinux/archlinux"
+  # requires vagrant-disksize plugin
+  config.disksize.size = "100GB"
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.hostname = "jstanley-archlinux-vm"
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # shared folder
+  # config.vm.synced_folder "../relative/path/on/host", "/path/on/guest"
+  config.vm.synced_folder "../common", "/vagrant/common"
+  config.vm.provision "file", source: "../common/ansible/pip_install.yml", destination: "/vagrant/ansible/pip_install.yml"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+    vb.memory = "2048"
+    vb.cpus = 2
+    vb.customize ["modifyvm", :id, "--vram", 256]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+  end
+
+  config.vm.provision "bootstrap", type: "shell", path: "bash/bootstrap.sh"
+  config.vm.provision "pip", type: "shell", privileged: false, path: "bash/pip.sh"
+
+  config.vm.provision "pacman_install", type: "ansible_local" do |ansible|
+    ansible.playbook = "ansible/pacman_install.yml"
+    ansible.verbose = true
+    ansible.limit = "all,localhost"
+  end
+
+  config.vm.provision "pip_install", type: "ansible_local" do |ansible|
+    ansible.playbook = "ansible/pip_install.yml"
+    ansible.verbose = true
+    ansible.limit = "all,localhost"
+  end
+
+  config.vm.provision "user_config", type: "ansible_local" do |ansible|
+    ansible.playbook = "ansible/user_config.yml"
+    ansible.verbose = true
+    ansible.limit = "all,localhost"
+  end
+
+  # config.vm.provision "aur_install", type: "ansible_local" do |ansible|
+  #   ansible.playbook = "ansible/aur_install.yml"
+  #   ansible.verbose = true
+  #   ansible.limit = "all,localhost"
+  # end
+end

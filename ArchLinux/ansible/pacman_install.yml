@@ -1,0 +1,68 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: uninstall potentially preinstalled packages
+      pacman:
+        name: virtualbox-guest-utils-nox
+        state: absent
+    - name: install command line only packages
+      pacman:
+        name:
+          - zsh
+          - vim
+          - htop
+          - tree
+          - screenfetch
+          - rsync
+          - git
+          - openssh
+          - unzip
+          - tmux
+          - screen
+          - trash-cli
+          - jq
+          - curl
+          - wget
+          - base-devel
+          # for funsies
+          - nethack
+          - figlet
+        state: latest
+    - name: install development tools
+      pacman:
+        name:
+          - tk
+          - jdk8-openjdk
+          - docker
+        state: latest
+    - name: install base gui packages
+      pacman:
+        name:
+          - xorg-xinit
+          - xorg-server
+          - libglvnd
+          - virtualbox-guest-modules-arch
+          - virtualbox-guest-utils
+        state: latest
+    - name: install desktop environment
+      pacman:
+        name:
+          - chromium
+          - compton
+          - xclip
+          - xdotool
+          - terminator
+          - rofi
+          - dunst
+          - ttf-ubuntu-font-family
+          - noto-fonts
+          - nitrogen
+        state: latest
+    - name: install gui development tools
+      pacman:
+        name:
+          - meld
+          - gitg
+        state: latest

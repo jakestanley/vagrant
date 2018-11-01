@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  tasks:
+    - name: install aws cli and docker compose
+      pip:
+        name: 
+          - docker-compose
+          - awscli
+        state: present
+        extra_args: --user

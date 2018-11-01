@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  tasks:
+    - name: set user shell
+      become: yes
+      become_method: sudo
+      user:
+        name: vagrant
+        group: docker
+        shell: /bin/zsh
+        append: yes
+    - name: clone dotfiles repo
+      become: yes
+      become_user: vagrant
+      git: 
+        repo: https://github.com/madstanners/dotfiles.git
+        update: no
+        dest: ~/git/github.com/madstanners/dotfiles
+    - name: link dotfiles
+      become: yes
+      become_user: vagrant        
+      shell: |
+        export DOTFILES=~/git/github.com/madstanners/dotfiles
+        $DOTFILES/scripts/unix/git.sh
