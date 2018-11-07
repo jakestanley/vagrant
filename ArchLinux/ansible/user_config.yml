@@ -15,10 +15,24 @@
       git: 
         repo: https://github.com/madstanners/dotfiles.git
         update: no
-        dest: ~/git/github.com/madstanners/dotfiles
-    - name: link dotfiles
+        dest: /home/vagrant/git/github.com/madstanners/dotfiles
+    - name: dotfiles dir in env (.profile)
       become: yes
-      become_user: vagrant        
-      shell: |
-        export DOTFILES=~/git/github.com/madstanners/dotfiles
-        $DOTFILES/scripts/unix/git.sh
+      become_user: vagrant
+      lineinfile:
+        create: yes
+        path: /home/vagrant/.profile
+        line: "export DOTFILES=/home/vagrant/git/github.com/madstanners/dotfiles"
+        state: present
+    - name: dotfiles dir in env (.zprofile)
+      lineinfile:
+        create: yes
+        path: /home/vagrant/.zprofile
+        line: "export DOTFILES=/home/vagrant/git/github.com/madstanners/dotfiles"
+        state: present
+    - name: dotfiles dir in env (.bash_profile)
+      lineinfile:
+        create: yes
+        path: /home/vagrant/.bash_profile
+        line: "export DOTFILES=/home/vagrant/git/github.com/madstanners/dotfiles"
+        state: present
