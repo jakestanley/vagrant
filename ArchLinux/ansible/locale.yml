@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: remove /etc/locale.conf
+      file:
+        state: absent
+        path: /etc/locale.conf
+    - name: populate /etc/locale.conf
+      lineinfile: 
+        create: yes
+        path: /etc/locale.conf 
+        line: "LANG=en_GB.UTF-8"
+        state: present
+    - name: remove /etc/vconsole.conf
+      file:
+        state: absent
+        path: /etc/vconsole.conf
+    - name: populate /etc/vconsole.conf
+      lineinfile: 
+        create: yes
+        path: /etc/vconsole.conf
+        line: "KEYMAP=uk"
+        state: present
+    - name: Ensure a US doesn't exist
+      locale_gen:
+        name: en_US.UTF-8
+        state: absent
+    - name: Ensure a UK exists
+      locale_gen:
+        name: en_GB.UTF-8
+        state: present
