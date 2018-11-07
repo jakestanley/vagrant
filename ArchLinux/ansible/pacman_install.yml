@@ -59,7 +59,14 @@
           - ttf-ubuntu-font-family
           - noto-fonts
           - nitrogen
+          - i3-gaps
+          - i3blocks
         state: latest
+    - name: install nice terminal stuff
+      pacman:
+        name:
+          - powerline
+          - powerline-fonts
     - name: install gui development tools
       pacman:
         name:
