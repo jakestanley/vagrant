@@ -3,6 +3,14 @@
   become: yes
   become_method: sudo
   tasks:
+    - name: add sublime pacman repository
+      lineinfile: 
+        path: /etc/pacman.conf
+        line: "[sublime-text]\nServer = https://download.sublimetext.com/arch/dev/x86_64"
+        state: present
+    - name: update repository cache
+      pacman:
+        update_cache: yes
     - name: uninstall potentially preinstalled packages
       pacman:
         name: virtualbox-guest-utils-nox
@@ -72,4 +80,5 @@
         name:
           - meld
           - gitg
+          - sublime-text
         state: latest
