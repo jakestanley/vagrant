@@ -70,6 +70,7 @@
           - nitrogen
           - i3-gaps
           - i3blocks
+          - gparted
         state: latest
     - name: install nice terminal stuff
       pacman:
