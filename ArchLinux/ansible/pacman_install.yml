@@ -34,6 +34,7 @@
           - curl
           - wget
           - base-devel
+          - ncdu
           # for funsies
           - nethack
           - figlet
