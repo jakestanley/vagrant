@@ -47,6 +47,13 @@
           - jdk8-openjdk
           - docker
         state: latest
+    - name: install ruby
+      pacman:
+        name:
+          - ruby
+          - rubygems
+          - ruby-rdoc
+        state: latest
     - name: install base gui packages
       pacman:
         name:
