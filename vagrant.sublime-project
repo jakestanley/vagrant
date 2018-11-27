@@ -6,7 +6,7 @@
             "file_exclude_patterns": [
                 "*.retry"
             ],
-            "folder_exclude_pattersn": [
+            "folder_exclude_patterns": [
                 ".vagrant"
             ]
         }
