@@ -23,6 +23,7 @@
           - htop
           - tree
           - screenfetch
+          - shellcheck
           - rsync
           - git
           - openssh
