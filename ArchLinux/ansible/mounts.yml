@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: mount windows fonts folder
+      mount:
+        path: /usr/share/fonts/WindowsFonts
+        src: Fonts
+        fstype: vboxsf
+        state: present
+    - name: mount vm host folder
+      mount:
+        path: /home/vagrant/share/vmhost
+        src: vmhost
+        fstype: vboxsf
+        state: present

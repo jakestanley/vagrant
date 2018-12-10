@@ -71,6 +71,7 @@
           - compton
           - xclip
           - xdotool
+          - xorg-xkill
           - terminator
           - rofi
           - dunst
